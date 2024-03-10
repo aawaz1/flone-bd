@@ -476,24 +476,9 @@ const ProductDescriptionInfo = ({
       </div>
 
       <div className="pro-details-quality">
-        {availability !== null && availability > 0 ? (
-          <div className="cart-plus-minus">
-            <button onClick={handleDecrement} className="dec qtybutton">
-              -
-            </button>
-            <input
-              className="cart-plus-minus-box"
-              type="text"
-              value={qty}
-              readOnly
-            />
-            <button onClick={handleIncrement} className="inc qtybutton">
-              +
-            </button>
-          </div>
-        ) : (
-          <div className="pro-details-quality">
-            {product?.on_stock > 1 ? (
+        <div style={{ display: "flex" }}>
+          <div style={{ marginRight: "10px" }}>
+            {availability !== null && availability > 0 ? (
               <div className="cart-plus-minus">
                 <button onClick={handleDecrement} className="dec qtybutton">
                   -
@@ -508,12 +493,30 @@ const ProductDescriptionInfo = ({
                   +
                 </button>
               </div>
-            ) : null}
-            <div className="pro-details-compare"></div>
+            ) : (
+              <div className="pro-details-quality">
+                {product?.on_stock > 1 ? (
+                  <div className="cart-plus-minus">
+                    <button onClick={handleDecrement} className="dec qtybutton">
+                      -
+                    </button>
+                    <input
+                      className="cart-plus-minus-box"
+                      type="text"
+                      value={qty}
+                      readOnly
+                    />
+                    <button onClick={handleIncrement} className="inc qtybutton">
+                      +
+                    </button>
+                  </div>
+                ) : null}
+                <div className="pro-details-compare"></div>
+              </div>
+            )}
           </div>
-        )}
 
-        {/* {availability !== null && availability > 0 ? (
+          {/* {availability !== null && availability > 0 ? (
           <div className="cart-plus-minus">
             <button onClick={handleDecrement} className="dec qtybutton">-</button>
             <input className="cart-plus-minus-box" type="text" value={qty} readOnly />
@@ -550,57 +553,66 @@ const ProductDescriptionInfo = ({
          </div>
        </div>} */}
 
-        <div className="pro-details-cart btn-hover">
-          {availability !== null && availability > 0 ? (
-            <button onClick={() => dispatch(addToCart({ product, qty }))}>
-              Add To Cart
-            </button>
-          ) : (
-            <>
-              {product?.on_stock > 1 && (
+          <div className="d-flex" style={{ verticalAlign: "center" }}>
+            <div
+              className="pro-details-cart btn-hover"
+              style={{ margin: "0px" }}
+            >
+              {availability !== null && availability > 0 ? (
                 <button onClick={() => dispatch(addToCart({ product, qty }))}>
                   Add To Cart
                 </button>
+              ) : (
+                <>
+                  {product?.on_stock > 1 && (
+                    <button
+                      onClick={() => dispatch(addToCart({ product, qty }))}
+                    >
+                      Add To Cart
+                    </button>
+                  )}
+                  {product?.on_stock <= 0 && (
+                    <button disabled>Out of Stock</button>
+                  )}
+                </>
               )}
-              {product?.on_stock <= 0 && <button disabled>Out of Stock</button>}
-            </>
-          )}
-        </div>
+            </div>
 
-        <div className="pro-details-wishlist">
-          <button
-            className={wishlistItem !== undefined ? "active" : ""}
-            disabled={wishlistItem !== undefined}
-            title={
-              wishlistItem !== undefined
-                ? "Added to wishlist"
-                : "Add to wishlist"
-            }
-            onClick={() => dispatch(addToWishlist(product))}
-          >
-            <i className="pe-7s-like" />
-          </button>
+            <div
+              className="pro-details-wishlist"
+              style={{ marginTop: "auto", marginBottom: "auto" }}
+            >
+              <button
+                className={wishlistItem !== undefined ? "active" : ""}
+                disabled={wishlistItem !== undefined}
+                title={
+                  wishlistItem !== undefined
+                    ? "Added to wishlist"
+                    : "Add to wishlist"
+                }
+                onClick={() => dispatch(addToWishlist(product))}
+              >
+                <i className="pe-7s-like" style={{ width: "30px" }} />
+              </button>
+            </div>
+          </div>
         </div>
-        <div
-          className="color-options"
-          style={{ }}
-        >
+        <div className="color-options" style={{ marginTop: "10px" }}>
           {product?.variants?.length > 0 && (
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "1vw"
               }}
             >
-              <h3 style={{  }}>Select variant</h3>
+              <h4>Select variant</h4>
               <div
                 className="color-options"
-                style={{ alignItems: "center", display: "flex" }}
+                style={{ alignItems: "center", display: "flex", gap: "10px" }}
               >
                 {product?.variants.map((variant, index) => (
                   <div
-                    style={{ width: "fit-content" }}
+                    style={{ width: "auto", marginBottom: "0px" }}
                     key={index}
                     className={`color-option ${
                       selectedColor === variant.name ? "selected" : ""
@@ -611,7 +623,7 @@ const ProductDescriptionInfo = ({
                   >
                     <div>
                       <input
-                        style={{width: "25px"}}
+                        style={{ width: "25px" }}
                         type="radio"
                         name="color"
                         id={`color-${index}`}
@@ -628,6 +640,7 @@ const ProductDescriptionInfo = ({
                         style={{
                           color: "goldenrod",
                           background: "white",
+                          textTransform: "capitalize",
                         }}
                       >
                         {variant?.name}
