@@ -1,0 +1,13 @@
+.billing{
+    
+    background:  linear-gradient(white 10%, lightsteelblue);
+    
+    height: 4vh;
+ 
+}
+
+
+
+body{
+    overflow-x: hidden;
+}
